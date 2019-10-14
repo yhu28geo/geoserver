@@ -16,7 +16,6 @@ public class RenderTimeStatistics implements RenderListener {
 
     public static final String ID = "statistics";
     private List<Layer> layers;
-    private List<String> layerNames;
     private Map<Integer, Long> startRenderingLayersTimes;
     private Map<Integer, Long> endRenderingLayersTimes;
     private Map<Integer, Long> renderingLayersTimes;

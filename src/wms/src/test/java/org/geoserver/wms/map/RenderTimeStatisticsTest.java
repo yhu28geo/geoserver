@@ -4,18 +4,17 @@
  */
 package org.geoserver.wms.map;
 
-import static org.easymock.EasyMock.*;
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
-import org.easymock.EasyMock;
 import org.geotools.geometry.jts.ReferencedEnvelope;
 import org.geotools.map.Layer;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mockito;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
@@ -75,11 +74,10 @@ public class RenderTimeStatisticsTest {
     }
 
     public HttpServletRequest createMockHttpRequest(RenderTimeStatistics statistics) {
-        HttpServletRequest httpReq = EasyMock.createMock(HttpServletRequest.class);
+        HttpServletRequest httpReq = Mockito.mock(HttpServletRequest.class);
         httpReq.setAttribute(RenderTimeStatistics.ID, statistics);
-        expectLastCall();
-        expect(httpReq.getAttribute(RenderTimeStatistics.ID)).andReturn(statistics).anyTimes();
-        replay(httpReq);
+        Mockito.when(httpReq.getAttribute(RenderTimeStatistics.ID)).thenReturn(statistics);
+        Mockito.doNothing().when(httpReq).setAttribute(RenderTimeStatistics.ID, statistics);
         return httpReq;
     }
 }
