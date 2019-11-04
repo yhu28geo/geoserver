@@ -157,7 +157,7 @@ public class WMSLayerInfoImpl extends ResourceInfoImpl implements WMSLayerInfo {
         // no remote styles were read from this server
         if (allAvailableRemoteStyles == null) return null;
         else
-            return allAvailableRemoteStyles
+            return getAllAvailableRemoteStyles()
                     .stream()
                     .filter(s -> !forcedRemoteStyle.equalsIgnoreCase(s.getName()))
                     .filter(s -> selectedRemoteStyles.contains(s.getName()))
@@ -169,13 +169,14 @@ public class WMSLayerInfoImpl extends ResourceInfoImpl implements WMSLayerInfo {
         if (forcedRemoteStyle != null)
             if (!forcedRemoteStyle.isEmpty()) {
                 Optional<StyleInfo> defaultRemoteStyle =
-                        allAvailableRemoteStyles
+                        getAllAvailableRemoteStyles()
                                 .stream()
                                 .filter(s -> s.getName().equalsIgnoreCase(forcedRemoteStyle))
                                 .findFirst();
                 // will return null if forcedRemoteStyle is not empty string
                 // and was not found in selected remote styles
                 if (defaultRemoteStyle.isPresent()) return defaultRemoteStyle.get();
+                else return DEFAULT_ON_REMOTE;
             } else {
                 return DEFAULT_ON_REMOTE;
             }

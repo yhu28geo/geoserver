@@ -141,7 +141,9 @@ public class BasicResourceConfig extends ResourceConfigurationPanel {
                             try {
                                 CoordinateReferenceSystem crs = CRS.decode(srs);
                                 ReferencedEnvelope bounds =
-                                        cb.getNativeBounds(model.getObject()).transform(crs, false);
+                                        model.getObject()
+                                                .getNativeBoundingBox()
+                                                .transform(crs, false);
                                 nativeBBox.setModelObject(bounds);
                                 model.getObject().setSRS(srs);
                                 model.getObject().setNativeCRS(crs);
@@ -180,7 +182,11 @@ public class BasicResourceConfig extends ResourceConfigurationPanel {
                                 }
                                 return CRS.equalsIgnoreMetadata(crs, resourceNativeCRS);
                             } catch (IOException e) {
-                                LOGGER.log(Level.SEVERE, e.getMessage(), e);
+                                LOGGER.log(
+                                        Level.SEVERE,
+                                        "Error getting actual Native SRS code for resource "
+                                                + resourceInfo.getNativeName(),
+                                        e);
                             }
                             return false;
                         }
